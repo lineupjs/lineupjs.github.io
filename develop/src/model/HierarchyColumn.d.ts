@@ -102,5 +102,5 @@ export declare function resolveInnerNodes(node: ICategoryInternalNode): ICategor
 export declare function isHierarchical(categories: (string | Partial<ICategory>)[]): boolean;
 export declare function deriveHierarchy(categories: (Partial<ICategory> & {
     parent: string | null;
-})[]): ICategoryNode;
+})[]): Readonly<ICategoryNode>;
 //# sourceMappingURL=HierarchyColumn.d.ts.map
