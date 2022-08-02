@@ -36,6 +36,7 @@ export default class EngineRenderer extends AEventDispatcher {
     static readonly EVENT_DIALOG_CLOSED = "dialogClosed";
     protected readonly options: Readonly<ILineUpOptions>;
     readonly node: HTMLElement;
+    private readonly resizeObserver;
     private readonly table;
     private readonly rankings;
     private readonly slopeGraphs;

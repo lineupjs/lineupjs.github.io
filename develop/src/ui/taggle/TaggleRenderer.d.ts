@@ -41,7 +41,6 @@ export default class TaggleRenderer extends AEventDispatcher {
     private isDynamicLeafHeight;
     private rule;
     private levelOfDetail;
-    private readonly resizeListener;
     private readonly renderer;
     private readonly options;
     constructor(data: DataProvider, parent: HTMLElement, options: Partial<ITaggleOptions> & Readonly<ILineUpOptions>);

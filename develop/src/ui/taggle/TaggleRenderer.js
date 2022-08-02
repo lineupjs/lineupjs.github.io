@@ -22,7 +22,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     }
     return to.concat(ar || Array.prototype.slice.call(from));
 };
-import { debounce, AEventDispatcher, suffix } from '../../internal';
+import { AEventDispatcher, suffix } from '../../internal';
 import { isGroup } from '../../model';
 import { DataProvider } from '../../provider';
 import EngineRenderer from '../EngineRenderer';
@@ -34,7 +34,6 @@ var TaggleRenderer = /** @class */ (function (_super) {
         _this.isDynamicLeafHeight = false;
         _this.rule = null;
         _this.levelOfDetail = null;
-        _this.resizeListener = function () { return debounce(function () { return _this.update(); }, 100); };
         _this.options = {
             violationChanged: function () { return undefined; },
             rowPadding: 2,
@@ -56,9 +55,6 @@ var TaggleRenderer = /** @class */ (function (_super) {
             }
         });
         _this.forward.apply(_this, __spreadArray([_this.renderer], suffix('.main', EngineRenderer.EVENT_HIGHLIGHT_CHANGED, EngineRenderer.EVENT_DIALOG_OPENED, EngineRenderer.EVENT_DIALOG_CLOSED), false));
-        window.addEventListener('resize', _this.resizeListener, {
-            passive: true,
-        });
         return _this;
     }
     Object.defineProperty(TaggleRenderer.prototype, "style", {
@@ -143,7 +139,6 @@ var TaggleRenderer = /** @class */ (function (_super) {
     };
     TaggleRenderer.prototype.destroy = function () {
         this.renderer.destroy();
-        window.removeEventListener('resize', this.resizeListener);
     };
     TaggleRenderer.prototype.update = function () {
         this.renderer.update();
