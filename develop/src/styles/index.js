@@ -20,7 +20,7 @@ export default function getStyle(key, defaultValue) {
     return defaultValue;
 }
 /** @internal */
-export var SELECTED_COLOR = getStyle('lu_selected_color', '#ffa500');
+export var SELECTED_COLOR = getStyle('lu_selected_color', '#ffcf76');
 /** @internal */
 export var COLUMN_PADDING = Number.parseInt(getStyle('lu_engine_grip_gap', '5px'), 10);
 /** @internal */
@@ -29,7 +29,7 @@ export var FILTERED_OPACITY = Number.parseFloat(getStyle('lu_filtered_opacity', 
 export var DASH = {
     width: Number.parseInt(getStyle('lu_missing_dash_width', '2px'), 10),
     height: Number.parseInt(getStyle('lu_missing_dash_height', '10px'), 10),
-    color: getStyle('lu_missing_dash_color', '#dbdbdb'),
+    color: getStyle('lu_missing_dash_color', '#a0a0a0'),
 };
 /** @internal */
 export var UPSET = {

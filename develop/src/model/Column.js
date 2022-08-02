@@ -20,7 +20,7 @@ import { defaultGroup, ECompareValueType, } from './interfaces';
  * default color that should be used
  * @type {string}
  */
-export var DEFAULT_COLOR = '#C1C1C1';
+export var DEFAULT_COLOR = '#a0a0a0';
 /**
  * a column in LineUp
  */
