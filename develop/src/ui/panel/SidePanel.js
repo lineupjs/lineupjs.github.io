@@ -287,32 +287,22 @@ var SidePanel = /** @class */ (function () {
         }
         var stats = this.node.querySelector(".".concat(cssClass('stats')));
         var s = this.data.getSelection();
-        var clearSelection = s.length === 0
-            ? ''
-            : "<i class=\"".concat(cssClass('action'), " ").concat(cssClass('action-clear-selection'), " ").concat(cssClass('stats-clear-selection'), "\" title=\"Clear selection\"><span class=\"").concat(cssClass('aria'), "\" aria-hidden=\"true\">Clear Selection</span></i>");
         var r = this.data.getFirstRanking();
         var f = format(',d');
         var visible = r ? r.getGroups().reduce(function (a, b) { return a + b.order.length; }, 0) : 0;
         var total = this.data.getTotalNumberOfRows();
-        stats.innerHTML = "Showing <strong>".concat(f(visible), "</strong> of ").concat(f(total), " items").concat(s.length > 0 ? "; <span>".concat(f(s.length), " selected ").concat(clearSelection, "</span>") : '').concat(visible < total
+        stats.innerHTML = "Showing <strong>".concat(f(visible), "</strong> of ").concat(f(total), " items").concat(s.length > 0 ? "; <span>".concat(f(s.length), " selected</span>") : '').concat(visible < total
             ? " <i class=\"".concat(cssClass('action'), " ").concat(cssClass('action-filter'), " ").concat(cssClass('stats-reset'), "\" title=\"Reset filters\"><span>Reset</span></i>")
             : '');
         var resetButton = stats.querySelector(".".concat(cssClass('stats-reset')));
-        if (resetButton) {
-            resetButton.onclick = function (evt) {
-                evt.preventDefault();
-                evt.stopPropagation();
-                _this.data.clearFilters();
-            };
+        if (!resetButton) {
+            return;
         }
-        var clearButton = stats.querySelector(".".concat(cssClass('stats-clear-selection')));
-        if (clearButton) {
-            clearButton.onclick = function (evt) {
-                evt.preventDefault();
-                evt.stopPropagation();
-                _this.data.setSelection([]);
-            };
-        }
+        resetButton.onclick = function (evt) {
+            evt.preventDefault();
+            evt.stopPropagation();
+            _this.data.clearFilters();
+        };
     };
     SidePanel.prototype.destroy = function () {
         this.node.remove();
