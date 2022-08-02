@@ -166,7 +166,7 @@ var TaskScheduler = /** @class */ (function () {
         }
         // eslint-disable-next-line no-restricted-globals
         var ww = self;
-        if (ww.requestIdleCallback) {
+        if (ww.requestIdleCallback && ww.clearIdleCallback) {
             ww.clearIdleCallback(this.taskId);
         }
         else {

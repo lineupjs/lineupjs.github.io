@@ -252,6 +252,7 @@ export var toolbarActions = {
         featureLevel: 'basic',
     }),
     filterSelection: uiDialog('Filter …', SelectionFilterDialog, function (ctx) { return [ctx]; }, {
+        order: 8,
         mode: 'menu+shortcut',
         featureCategory: 'ranking',
         featureLevel: 'basic',
@@ -312,6 +313,13 @@ export var toolbarActions = {
         col.children.reverse().forEach(function (c) { return col.insertAfterMe(c); });
         col.removeMe();
     }, { featureCategory: 'model', featureLevel: 'advanced' }),
+    clearSelection: ui('Clear Selection', function (_col, _evt, ctx, level) {
+        ctx.dialogManager.removeAboveLevel(level - 1); // close itself
+        var s = ctx.provider.getSelection();
+        if (s.length > 0) {
+            ctx.provider.setSelection([]);
+        }
+    }, { featureCategory: 'model', featureLevel: 'advanced', order: 11 }),
     invertSelection: ui('Invert Selection', function (col, _evt, ctx, level) {
         ctx.dialogManager.removeAboveLevel(level - 1); // close itself
         var s = ctx.provider.getSelection();
@@ -323,7 +331,7 @@ export var toolbarActions = {
         var ss = new Set(s);
         var others = order.filter(function (d) { return !ss.has(d); });
         ctx.provider.setSelection(others);
-    }, { featureCategory: 'model', featureLevel: 'advanced' }),
+    }, { featureCategory: 'model', featureLevel: 'advanced', order: 10 }),
 };
 function uiSortMethod(methods) {
     methods = methods.sort(function (a, b) { return a.toLowerCase().localeCompare(b.toLowerCase()); });
