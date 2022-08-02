@@ -217,7 +217,7 @@ function createFilterContext(col, context) {
                 max: maxValue === domain[1] ? Number.POSITIVE_INFINITY : maxValue,
             });
         },
-        edit: function (value, attachment) {
+        edit: function (value, attachment, type, otherValue) {
             return new Promise(function (resolve) {
                 var dialogCtx = {
                     attachment: attachment,
@@ -228,8 +228,8 @@ function createFilterContext(col, context) {
                 };
                 var dialog = new InputNumberDialog(dialogCtx, resolve, {
                     value: value,
-                    min: domain[0],
-                    max: domain[1],
+                    min: type === 'max' && !Number.isNaN(otherValue) ? Math.min(domain[0], otherValue) : domain[0],
+                    max: type === 'min' && !Number.isNaN(otherValue) ? Math.max(domain[1], otherValue) : domain[1],
                 });
                 dialog.open();
             });

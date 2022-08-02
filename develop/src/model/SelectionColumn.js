@@ -152,7 +152,7 @@ var SelectionColumn = /** @class */ (function (_super) {
     };
     SelectionColumn = SelectionColumn_1 = __decorate([
         SupportType(),
-        toolbar('sort', 'sortBy', 'group', 'groupBy', 'invertSelection', 'filterSelection'),
+        toolbar('sort', 'sortBy', 'group', 'groupBy', 'clearSelection', 'invertSelection', 'filterSelection'),
         Category('support')
     ], SelectionColumn);
     return SelectionColumn;

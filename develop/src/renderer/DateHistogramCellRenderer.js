@@ -237,8 +237,9 @@ function createFilterContext(col, context, domain) {
                 max: Math.abs(maxValue - domain[1]) < 0.001 ? Number.POSITIVE_INFINITY : shiftFilterDateDay(maxValue, 'max'),
             });
         },
-        edit: function (value, attachment, type) {
+        edit: function (value, attachment, type, otherValue) {
             return new Promise(function (resolve) {
+                var _a;
                 var dialogCtx = {
                     attachment: attachment,
                     manager: context.dialogManager,
@@ -246,7 +247,11 @@ function createFilterContext(col, context, domain) {
                     idPrefix: context.idPrefix,
                     sanitize: context.sanitize,
                 };
-                var dialog = new InputDateDialog(dialogCtx, function (d) { return resolve(d == null ? NaN : shiftFilterDateDay(d.getTime(), type)); }, { value: Number.isNaN(value) ? null : new Date(value) });
+                var dialog = new InputDateDialog(dialogCtx, function (d) { return resolve(d == null ? NaN : shiftFilterDateDay(d.getTime(), type)); }, (_a = {
+                        value: Number.isNaN(value) ? null : new Date(value)
+                    },
+                    _a[type === 'min' ? 'max' : 'min'] = Number.isNaN(otherValue) ? null : new Date(otherValue),
+                    _a));
                 dialog.open();
             });
         },

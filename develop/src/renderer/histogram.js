@@ -94,7 +94,8 @@ export function initFilter(node, context) {
         evt.preventDefault();
         evt.stopPropagation();
         var value = context.parseRaw(min.dataset.raw);
-        context.edit(value, min, 'min').then(function (newValue) {
+        var maxValue = context.parseRaw(max.dataset.raw);
+        context.edit(value, min, 'min', maxValue).then(function (newValue) {
             minHint.style.width = "".concat(context.percent(newValue), "%");
             min.dataset.value = context.format(newValue);
             min.dataset.raw = context.formatRaw(newValue);
@@ -114,7 +115,8 @@ export function initFilter(node, context) {
         evt.preventDefault();
         evt.stopPropagation();
         var value = context.parseRaw(max.dataset.raw);
-        context.edit(value, max, 'max').then(function (newValue) {
+        var minValue = context.parseRaw(min.dataset.raw);
+        context.edit(value, max, 'max', minValue).then(function (newValue) {
             maxHint.style.width = "".concat(100 - context.percent(newValue), "%");
             max.dataset.value = context.format(newValue);
             max.dataset.raw = context.formatRaw(newValue);
@@ -136,20 +138,28 @@ export function initFilter(node, context) {
         filter: function (evt) { return evt.button === 0 && !evt.shiftKey && !evt.ctrlKey; },
         onStart: function (handle) { return handle.classList.add(cssClass('hist-dragging')); },
         onDrag: function (handle, x) {
+            var isMin = handle.classList.contains(cssClass('histogram-min'));
             var total = node.clientWidth;
             var px = Math.max(0, Math.min(x, total));
             var percent = Math.round((100 * px) / total);
-            handle.dataset.value = context.format(context.unpercent(percent));
-            handle.dataset.raw = context.formatRaw(context.unpercent(percent));
-            if (handle.classList.contains(cssClass('histogram-min'))) {
+            var rawValue = context.unpercent(percent);
+            var otherValue = context.parseRaw((isMin ? max : min).dataset.raw);
+            if ((isMin && rawValue > otherValue) || (!isMin && rawValue < otherValue)) {
+                rawValue = otherValue;
+                percent = context.percent(rawValue);
+            }
+            handle.dataset.value = context.format(rawValue);
+            handle.dataset.raw = context.formatRaw(rawValue);
+            if (isMin) {
                 handle.style.left = "".concat(percent, "%");
                 handle.classList.toggle(cssClass('swap-hint'), percent > 15);
                 minHint.style.width = "".concat(percent, "%");
-                return;
             }
-            handle.style.right = "".concat(100 - percent, "%");
-            handle.classList.toggle(cssClass('swap-hint'), percent < 85);
-            maxHint.style.width = "".concat(100 - percent, "%");
+            else {
+                handle.style.right = "".concat(100 - percent, "%");
+                handle.classList.toggle(cssClass('swap-hint'), percent < 85);
+                maxHint.style.width = "".concat(100 - percent, "%");
+            }
         },
         onEnd: function (handle) {
             handle.classList.remove(cssClass('hist-dragging'));
