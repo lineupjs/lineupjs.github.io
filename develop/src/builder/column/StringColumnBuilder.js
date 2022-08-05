@@ -41,7 +41,7 @@ var StringColumnBuilder = /** @class */ (function (_super) {
         return this;
     };
     /**
-     * provide a pattern with which the value will be wrapped, use <code>${value}</code> for the current and and <code>${item}</code> for the whole item
+     * provide a pattern with which the value will be wrapped, use `${value}` for the current and and `${item}` for the whole item
      * @param {string} pattern pattern to apply
      * @param {string[]} templates optional templates for patterns to provide in the edit pattern dialog
      */

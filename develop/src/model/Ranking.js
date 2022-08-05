@@ -298,8 +298,8 @@ var Ranking = /** @class */ (function (_super) {
     };
     /**
      * replaces, moves, or remove the given column in the sorting hierarchy
-     * @param col {Column}
-     * @param priority {number} when priority < 0 remove the column only else replace at the given priority
+     * @param col
+     * @param priority when priority < 0 remove the column only else replace at the given priority
      */
     Ranking.prototype.sortBy = function (col, ascending, priority) {
         if (ascending === void 0) { ascending = false; }
@@ -311,8 +311,8 @@ var Ranking = /** @class */ (function (_super) {
     };
     /**
      * replaces, moves, or remove the given column in the group sorting hierarchy
-     * @param col {Column}
-     * @param priority {number} when priority < 0 remove the column only else replace at the given priority
+     * @param col
+     * @param priority when priority < 0 remove the column only else replace at the given priority
      */
     Ranking.prototype.groupSortBy = function (col, ascending, priority) {
         if (ascending === void 0) { ascending = false; }
@@ -338,8 +338,8 @@ var Ranking = /** @class */ (function (_super) {
     };
     /**
      * replaces, moves, or remove the given column in the grouping hierarchy
-     * @param col {Column}
-     * @param priority {number} when priority < 0 remove the column only else replace at the given priority
+     * @param col
+     * @param priority when priority < 0 remove the column only else replace at the given priority
      */
     Ranking.prototype.groupBy = function (col, priority) {
         if (priority === void 0) { priority = 0; }

@@ -5,6 +5,7 @@ import { LocalDataProvider } from './provider';
 import { LineUp, Taggle } from './ui';
 export * from './builder';
 export * from './config';
+export { default as AEventDispatcher } from './internal/AEventDispatcher';
 export * from './internal/mathInterfaces';
 export * from './model';
 export * from './provider';
@@ -18,9 +19,9 @@ export function createLocalDataProvider(data, columns, options) {
 /**
  *
  * @param container the html element lineup should be built in
- * @param data {DataProvider} the data provider
- * @param config {Partial<ILineUpOptions>} lineup configuration overrides
- * @returns {LineUp} the created lineup instance
+ * @param data the data provider
+ * @param config lineup configuration overrides
+ * @returns the created lineup instance
  */
 export function createLineUp(container, data, config) {
     if (config === void 0) { config = {}; }

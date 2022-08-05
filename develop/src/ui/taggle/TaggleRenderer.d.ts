@@ -29,8 +29,17 @@ export declare function dialogOpened(dialog: ADialog): void;
  * @event
  */
 export declare function dialogClosed(dialog: ADialog, action: 'cancel' | 'confirm'): void;
-export interface ITaggleOptions {
+/**
+ * list of taggle options
+ */
+export interface ITaggleRendererOptions {
+    /**
+     * notification when a violation has changed
+     */
     violationChanged(rule: IRule | null, violation: string): void;
+    /**
+     * row padding
+     */
     rowPadding: number;
 }
 export default class TaggleRenderer extends AEventDispatcher {
@@ -43,7 +52,7 @@ export default class TaggleRenderer extends AEventDispatcher {
     private levelOfDetail;
     private readonly renderer;
     private readonly options;
-    constructor(data: DataProvider, parent: HTMLElement, options: Partial<ITaggleOptions> & Readonly<ILineUpOptions>);
+    constructor(data: DataProvider, parent: HTMLElement, options: Partial<ITaggleRendererOptions> & Readonly<ILineUpOptions>);
     get style(): GridStyleManager;
     get ctx(): IRankingHeaderContextContainer & IRenderContext & IEngineRankingContext;
     pushUpdateAble(updateAble: (ctx: IRankingHeaderContext) => void): void;
