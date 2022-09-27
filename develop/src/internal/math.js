@@ -103,9 +103,9 @@ function pushAll(push) {
         }
     };
 }
-var GAUSSIAN_CONST = Math.sqrt(2 * Math.PI);
 // See <http://en.wikipedia.org/wiki/Kernel_(statistics)>.
 function gaussian(u) {
+    var GAUSSIAN_CONST = Math.sqrt(2 * Math.PI);
     return Math.exp(-0.5 * u * u) / GAUSSIAN_CONST;
 }
 function toSampleVariance(variance, len) {
@@ -960,7 +960,6 @@ export function createWorkerBlob() {
         quantile.toString(),
         numberStatsBuilder.toString(),
         boxplotBuilder.toString(),
-        computeGranularity.toString(),
         pushDateHist.toString(),
         dateStatsBuilder.toString(),
         categoricalStatsBuilder.toString(),
@@ -971,6 +970,11 @@ export function createWorkerBlob() {
         sortComplex.toString(),
         dateValueCache2Value.toString(),
         categoricalValueCache2Value.toString(),
+        computeVariance.toString(),
+        toSampleVariance.toString(),
+        nrd.toString(),
+        gaussian.toString(),
+        computeKDE.toString(),
         toFunctionBody(sortWorkerMain),
     ]);
 }
