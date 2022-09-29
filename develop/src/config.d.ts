@@ -44,6 +44,11 @@ export interface ILineUpFlags {
      * @default true
      */
     advancedUIFeatures: boolean;
+    /**
+     * whether one can combine via drag and drop
+     * @default true
+     */
+    combineViaDragNDrop: boolean;
 }
 export interface IToolbarLookup<T> {
     [key: string]: T;

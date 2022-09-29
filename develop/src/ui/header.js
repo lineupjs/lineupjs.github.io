@@ -70,8 +70,8 @@ export function createHeader(col, ctx, options) {
     if (options.rearrangeAble) {
         var placer = node.getElementsByClassName(cssClass('placer'))[0];
         var nextSibling = col.nextSibling();
-        var widthFactor = !options.rearrangeAble ? 0.5 : 0.2;
-        if (!options.rearrangeAble) {
+        var widthFactor = !options.mergeDropAble ? 0.5 : 0.2;
+        if (!options.mergeDropAble) {
             placer.style.left = '50%';
         }
         placer.style.width = "".concat(col.getWidth() * widthFactor + ((_a = (nextSibling === null || nextSibling === void 0 ? void 0 : nextSibling.getWidth()) / 2) !== null && _a !== void 0 ? _a : 50), "px");
