@@ -11,7 +11,7 @@ export interface IFilterContext<T> {
     formatRaw(v: T): string;
     parseRaw(v: string): T;
     setFilter(filterMissing: boolean, min: T, max: T): void;
-    edit(value: T, attachment: HTMLElement, type: 'min' | 'max'): Promise<T>;
+    edit(value: T, attachment: HTMLElement, type: 'min' | 'max', otherValue: T): Promise<T>;
     domain: [T, T];
 }
 export declare function filteredHistTemplate<T>(c: IFilterContext<T>, f: IFilterInfo<T>): string;

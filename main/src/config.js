@@ -63,6 +63,7 @@ export function defaultOptions() {
             advancedRankingFeatures: true,
             advancedModelFeatures: true,
             advancedUIFeatures: true,
+            combineViaDragNDrop: true,
         },
         ignoreUnsupportedBrowser: false,
         copyableRows: true,

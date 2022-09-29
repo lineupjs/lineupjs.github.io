@@ -12,7 +12,6 @@ import type { IEventListener } from '../internal';
 export declare function createSelectionDesc(label?: string): {
     type: string;
     label: string;
-    fixed: boolean;
 };
 export interface ISelectionColumnDesc extends IValueColumnDesc<boolean> {
     /**

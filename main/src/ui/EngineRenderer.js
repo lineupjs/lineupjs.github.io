@@ -23,7 +23,7 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 };
 import { MultiTableRowRenderer, nonUniformContext } from 'lineupengine';
-import { AEventDispatcher, round, suffix } from '../internal';
+import { AEventDispatcher, debounce, round, suffix } from '../internal';
 import { isGroup, Ranking } from '../model';
 import { DataProvider } from '../provider';
 import { isSummaryGroup, groupEndLevel } from '../provider/internal';
@@ -162,6 +162,13 @@ var EngineRenderer = /** @class */ (function (_super) {
             }
         }
         _this.initProvider(data);
+        // update on container resizes
+        _this.resizeObserver = new ResizeObserver(debounce(function () {
+            _this.update();
+        }, 100));
+        _this.resizeObserver.observe(_this.node.parentElement, {
+            box: 'content-box',
+        });
         return _this;
     }
     Object.defineProperty(EngineRenderer.prototype, "style", {
@@ -449,6 +456,10 @@ var EngineRenderer = /** @class */ (function (_super) {
         this.enabledHighlightListening = enable;
     };
     EngineRenderer.prototype.destroy = function () {
+        if (this.node.parentElement) {
+            this.resizeObserver.unobserve(this.node.parentElement);
+        }
+        this.resizeObserver.disconnect();
         this.takeDownProvider();
         this.table.destroy();
         this.node.remove();

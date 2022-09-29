@@ -87,6 +87,7 @@ var EngineRanking = /** @class */ (function (_super) {
                 advancedModelFeatures: true,
                 advancedRankingFeatures: true,
                 advancedUIFeatures: true,
+                combineViaDragNDrop: true,
             },
         };
         _this.canvasMouseHandler = {

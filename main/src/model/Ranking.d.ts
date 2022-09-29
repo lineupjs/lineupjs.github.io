@@ -162,21 +162,21 @@ export default class Ranking extends AEventDispatcher implements IColumnParent {
     getGroupCriteria(): Column[];
     /**
      * replaces, moves, or remove the given column in the sorting hierarchy
-     * @param col {Column}
-     * @param priority {number} when priority < 0 remove the column only else replace at the given priority
+     * @param col
+     * @param priority when priority < 0 remove the column only else replace at the given priority
      */
     sortBy(col: Column, ascending?: boolean, priority?: number): boolean;
     /**
      * replaces, moves, or remove the given column in the group sorting hierarchy
-     * @param col {Column}
-     * @param priority {number} when priority < 0 remove the column only else replace at the given priority
+     * @param col
+     * @param priority when priority < 0 remove the column only else replace at the given priority
      */
     groupSortBy(col: Column, ascending?: boolean, priority?: number): boolean;
     private hierarchyLogic;
     /**
      * replaces, moves, or remove the given column in the grouping hierarchy
-     * @param col {Column}
-     * @param priority {number} when priority < 0 remove the column only else replace at the given priority
+     * @param col
+     * @param priority when priority < 0 remove the column only else replace at the given priority
      */
     groupBy(col: Column, priority?: number): boolean;
     setSortCriteria(value: ISortCriteria | ISortCriteria[]): boolean;
