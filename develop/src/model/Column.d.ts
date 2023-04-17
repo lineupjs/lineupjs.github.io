@@ -297,5 +297,13 @@ export default class Column extends AEventDispatcher {
      * @param type specify in more detail what is dirty, by default whole column
      */
     markDirty(type?: 'header' | 'values' | 'all'): void;
+    getHeaderLabel(ctx: 'header' | 'sidePanel' | 'reorder'): {
+        content: string;
+        asHTML: boolean;
+    };
+    getSummaryLabel(ctx: 'header' | 'sidePanel' | 'reorder', fallback?: boolean): {
+        content: string;
+        asHTML: boolean;
+    };
 }
 //# sourceMappingURL=Column.d.ts.map

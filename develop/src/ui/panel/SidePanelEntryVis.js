@@ -31,7 +31,7 @@ var SidePanelEntryVis = /** @class */ (function () {
     SidePanelEntryVis.prototype.update = function (ctx) {
         if (ctx === void 0) { ctx = this.ctx; }
         this.ctx = ctx;
-        updateHeader(this.node, this.column);
+        updateHeader(this.node, this.column, 'sidePanel');
         this.updateSummary();
     };
     SidePanelEntryVis.prototype.updateSummary = function () {

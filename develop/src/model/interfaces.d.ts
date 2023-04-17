@@ -7,6 +7,10 @@ import type { IScriptMappingFunctionType } from './MappingFunction';
 export interface IColumnConstructor {
     new (id: string, desc: Readonly<IColumnDesc> & any, factory: ITypeFactory): Column;
 }
+export interface IStyleHTMLWrapper {
+    (col: Column, ctx: 'header' | 'sidePanel' | 'reorder'): string;
+    (col: IColumnDesc, ctx: 'chooser'): string;
+}
 export interface IStyleColumn {
     /**
      * column description
@@ -18,9 +22,10 @@ export interface IStyleColumn {
     summary: string;
     /**
      * whether to render the description as HTML (unsafe)
+     * or a custom function to convert a column to its summary label in HTML
      * @default false
      */
-    summaryAsHTML?: boolean;
+    summaryAsHTML?: boolean | IStyleHTMLWrapper;
     /**
      * color of this column
      * @deprecated not used anymore
@@ -66,9 +71,10 @@ export interface IColumnDesc extends Partial<IStyleColumn> {
     label: string;
     /**
      * whether to render the label as HTML (unsafe)
+     * or a custom function to convert a column to its summary label in HTML
      * @default false
      */
-    labelAsHTML?: boolean;
+    labelAsHTML?: boolean | IStyleHTMLWrapper;
     /**
      * the column type
      */

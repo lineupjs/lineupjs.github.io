@@ -47,12 +47,13 @@ export function createHeader(col, ctx, options) {
     var extra = options.extraPrefix
         ? function (name) { return "".concat(cssClass(name), " ").concat(cssClass("".concat(options.extraPrefix, "-").concat(name))); }
         : cssClass;
-    var summary = col.getMetaData().summary;
     node.innerHTML = "\n    <div class=\"".concat(extra('label'), " ").concat(cssClass('typed-icon'), "\"></div>\n    <div class=\"").concat(extra('sublabel'), "\"></div>\n    <div class=\"").concat(extra('toolbar'), "\"></div>\n    <div class=\"").concat(extra('spacing'), "\"></div>\n    <div class=\"").concat(extra('handle'), " ").concat(cssClass('feature-advanced'), " ").concat(cssClass('feature-ui'), "\"></div>\n    ").concat(options.mergeDropAble ? "<div class=\"".concat(extra('header-drop'), " ").concat(extra('merger'), "\"></div>") : '', "\n    ").concat(options.rearrangeAble
         ? "<div class=\"".concat(extra('header-drop'), " ").concat(extra('placer'), "\" data-draginfo=\"Place here\"></div>")
         : '', "\n  ");
-    setTextOrEmpty(node.firstElementChild, col.getWidth() < MIN_LABEL_WIDTH, col.label, col.desc.labelAsHTML);
-    setTextOrEmpty(node.children[1], col.getWidth() < MIN_LABEL_WIDTH || !summary, summary, col.desc.summaryAsHTML);
+    var label = col.getHeaderLabel('header');
+    setTextOrEmpty(node.firstElementChild, col.getWidth() < MIN_LABEL_WIDTH, label.content, label.asHTML);
+    var summary = col.getSummaryLabel('header');
+    setTextOrEmpty(node.children[1], col.getWidth() < MIN_LABEL_WIDTH || !summary, summary.content, summary.asHTML);
     // addTooltip(node, col);
     createShortcutMenuItems(node.getElementsByClassName(cssClass('toolbar'))[0], options.level, col, ctx, 'header');
     toggleToolbarIcons(node, col);
@@ -83,15 +84,18 @@ export function createHeader(col, ctx, options) {
     return node;
 }
 /** @internal */
-export function updateHeader(node, col, minWidth) {
+export function updateHeader(node, col, labelCtx, minWidth) {
     var _a;
+    if (labelCtx === void 0) { labelCtx = 'header'; }
     if (minWidth === void 0) { minWidth = MIN_LABEL_WIDTH; }
     var label = node.getElementsByClassName(cssClass('label'))[0];
-    setTextOrEmpty(label, col.getWidth() < minWidth, col.label, col.desc.labelAsHTML);
-    var summary = col.getMetaData().summary;
+    var labelText = col.getHeaderLabel(labelCtx);
+    setTextOrEmpty(label, col.getWidth() < minWidth, labelText.content, labelText.asHTML);
+    var summaryText = col.getSummaryLabel(labelCtx);
+    var summary = col.desc.summary;
     var subLabel = node.getElementsByClassName(cssClass('sublabel'))[0];
     if (subLabel) {
-        setTextOrEmpty(subLabel, col.getWidth() < minWidth || !summary, summary, col.desc.summaryAsHTML);
+        setTextOrEmpty(subLabel, col.getWidth() < minWidth || !summaryText.content, summaryText.content, summaryText.asHTML);
     }
     var title = col.label;
     if (summary) {

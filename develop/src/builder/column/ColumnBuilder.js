@@ -9,9 +9,9 @@ var ColumnBuilder = /** @class */ (function () {
         this.desc.label = label;
         return this;
     };
-    ColumnBuilder.prototype.htmlLabel = function (label) {
+    ColumnBuilder.prototype.htmlLabel = function (label, render) {
         this.desc.label = label;
-        this.desc.labelAsHTML = true;
+        this.desc.labelAsHTML = render !== null && render !== void 0 ? render : true;
         return this;
     };
     /**
@@ -28,9 +28,9 @@ var ColumnBuilder = /** @class */ (function () {
         this.desc.summary = summary;
         return this;
     };
-    ColumnBuilder.prototype.htmlSummary = function (label) {
+    ColumnBuilder.prototype.htmlSummary = function (label, render) {
         this.desc.summary = label;
-        this.desc.summaryAsHTML = true;
+        this.desc.summaryAsHTML = render !== null && render !== void 0 ? render : true;
         return this;
     };
     /**

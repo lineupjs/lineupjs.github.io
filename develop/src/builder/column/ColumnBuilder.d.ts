@@ -1,4 +1,4 @@
-import type { IColumnDesc } from '../../model';
+import type { IColumnDesc, IStyleHTMLWrapper } from '../../model';
 export default class ColumnBuilder<T extends IColumnDesc = IColumnDesc> {
     protected readonly desc: T;
     constructor(type: string, column: string);
@@ -6,7 +6,7 @@ export default class ColumnBuilder<T extends IColumnDesc = IColumnDesc> {
      * column label
      */
     label(label: string): this;
-    htmlLabel(label: string): this;
+    htmlLabel(label: string, render?: IStyleHTMLWrapper): this;
     /**
      * hide this column by default
      */
@@ -15,7 +15,7 @@ export default class ColumnBuilder<T extends IColumnDesc = IColumnDesc> {
      * column summary text (subtitle)
      */
     summary(summary: string): this;
-    htmlSummary(label: string): this;
+    htmlSummary(label: string, render?: IStyleHTMLWrapper): this;
     /**
      * column description
      */

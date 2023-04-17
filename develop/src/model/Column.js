@@ -528,6 +528,47 @@ var Column = /** @class */ (function (_super) {
                 ]);
         }
     };
+    Column.prototype.getHeaderLabel = function (ctx) {
+        if (this.desc.labelAsHTML === true) {
+            return {
+                content: this.label,
+                asHTML: true,
+            };
+        }
+        if (typeof this.desc.labelAsHTML === 'function') {
+            return {
+                content: this.desc.labelAsHTML(this, ctx),
+                asHTML: true,
+            };
+        }
+        return {
+            content: this.label,
+            asHTML: false,
+        };
+    };
+    Column.prototype.getSummaryLabel = function (ctx, fallback) {
+        if (fallback === void 0) { fallback = false; }
+        var summary = this.desc.summary;
+        if (!summary && fallback) {
+            summary = this.description;
+        }
+        if (this.desc.summaryAsHTML === true) {
+            return {
+                content: summary,
+                asHTML: true,
+            };
+        }
+        if (typeof this.desc.summaryAsHTML === 'function') {
+            return {
+                content: this.desc.summaryAsHTML(this, ctx),
+                asHTML: true,
+            };
+        }
+        return {
+            content: summary,
+            asHTML: false,
+        };
+    };
     /**
      * magic variable for showing all columns
      * @type {number}

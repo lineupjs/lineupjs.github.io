@@ -22,31 +22,32 @@ var Hierarchy = /** @class */ (function () {
                 node.classList.add(cssClass('typed-icon'));
                 node.dataset.typeCat = categoryOf(item.col).name;
                 node.dataset.type = item.col.desc.type;
-                var summary = item.col.getMetaData().summary || item.col.description;
+                var header = item.col.getHeaderLabel('reorder');
+                var summary = item.col.getSummaryLabel('reorder', true);
                 node.classList.toggle(cssClass('searchbox-summary-entry'), Boolean(summary));
                 if (summary) {
                     var label = node.ownerDocument.createElement('span');
-                    if (item.col.desc.labelAsHTML) {
-                        label.innerHTML = item.text;
+                    if (header.asHTML) {
+                        label.innerHTML = header.content;
                     }
                     else {
-                        label.textContent = item.text;
+                        label.textContent = header.content;
                     }
                     node.appendChild(label);
                     var desc = node.ownerDocument.createElement('span');
-                    if (item.col.desc.summaryAsHTML) {
-                        label.innerHTML = summary;
+                    if (summary.asHTML) {
+                        label.innerHTML = summary.content;
                     }
                     else {
-                        label.textContent = summary;
+                        label.textContent = summary.content;
                     }
                     node.appendChild(desc);
                 }
-                else if (item.col.desc.labelAsHTML) {
-                    node.innerHTML = item.text;
+                else if (header.asHTML) {
+                    node.innerHTML = header.content;
                 }
                 else {
-                    node.textContent = item.text;
+                    node.textContent = header.content;
                 }
             },
         };
@@ -77,7 +78,7 @@ var Hierarchy = /** @class */ (function () {
             var item = cache.get(col.id);
             if (item) {
                 node.appendChild(item);
-                updateHeader(item, col, 0);
+                updateHeader(item, col, 'reorder', 0);
                 return;
             }
             var addons = getToolbarDialogAddons(col, addonKey, _this.ctx);
@@ -107,7 +108,7 @@ var Hierarchy = /** @class */ (function () {
                 };
             }
             extras(d, last);
-            updateHeader(last, col, 0);
+            updateHeader(last, col, 'reorder', 0);
         });
     };
     Hierarchy.prototype.renderGroups = function (ranking, node) {
