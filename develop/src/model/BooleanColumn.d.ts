@@ -15,6 +15,11 @@ export interface IBooleanDesc {
      * @default (empty)
      */
     falseMarker?: string;
+    /**
+     * list of values that indicate true values (case insensitive)
+     * @default 'y', 'yes', 'true', true, '1','1.0', 1, 1.0, 'on'
+     */
+    trueValues?: readonly any[];
 }
 export declare type IBooleanColumnDesc = IValueColumnDesc<boolean> & IBooleanDesc;
 /**
@@ -43,6 +48,7 @@ export default class BooleanColumn extends ValueColumn<boolean> implements ICate
         name: string;
         color: string;
     };
+    static readonly DEFAULT_TRUE_VALUES: any[];
     private currentFilter;
     private colorMapping;
     readonly categories: ICategory[];

@@ -27,6 +27,10 @@ var BooleanColumnBuilder = /** @class */ (function (_super) {
         this.desc.falseMarker = marker;
         return this;
     };
+    BooleanColumnBuilder.prototype.trueValues = function (values) {
+        this.desc.trueValues = values;
+        return this;
+    };
     return BooleanColumnBuilder;
 }(ColumnBuilder));
 export default BooleanColumnBuilder;

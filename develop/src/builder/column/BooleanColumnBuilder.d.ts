@@ -4,6 +4,7 @@ export default class BooleanColumnBuilder extends ColumnBuilder<IBooleanColumnDe
     constructor(column: string);
     trueMarker(marker: string): this;
     falseMarker(marker: string): this;
+    trueValues(values: readonly any[]): this;
 }
 /**
  * builds a boolean column builder

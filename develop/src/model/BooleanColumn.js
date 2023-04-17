@@ -83,11 +83,14 @@ var BooleanColumn = /** @class */ (function (_super) {
         configurable: true
     });
     BooleanColumn.prototype.getValue = function (row) {
+        var _a;
         var v = _super.prototype.getValue.call(this, row);
         if (typeof v === 'undefined' || v == null) {
             return null;
         }
-        return v === true || v === 'true' || v === 'yes' || v === 'x';
+        var trueValues = (_a = this.desc.trueValues) !== null && _a !== void 0 ? _a : BooleanColumn_1.DEFAULT_TRUE_VALUES;
+        var vs = String(v).toLowerCase();
+        return trueValues.some(function (d) { return d === v || d === vs; });
     };
     BooleanColumn.prototype.getCategoryOfBoolean = function (v) {
         return v == null ? null : this.categories[v ? 0 : 1];
@@ -209,6 +212,7 @@ var BooleanColumn = /** @class */ (function (_super) {
     BooleanColumn.EVENT_COLOR_MAPPING_CHANGED = 'colorMappingChanged';
     BooleanColumn.GROUP_TRUE = { name: 'True', color: '#444444' };
     BooleanColumn.GROUP_FALSE = { name: 'False', color: '#dddddd' };
+    BooleanColumn.DEFAULT_TRUE_VALUES = ['y', 'yes', 'true', true, '1', '1.0', 1, 1.0, 'on'];
     BooleanColumn = BooleanColumn_1 = __decorate([
         toolbar('rename', 'clone', 'sort', 'sortBy', 'group', 'groupBy', 'filterCategorical', 'colorMappedCategorical'),
         Category('categorical')
