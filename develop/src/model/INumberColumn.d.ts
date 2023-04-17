@@ -75,6 +75,12 @@ export interface INumberDesc extends IMapAbleDesc {
      * @default 0.001
      */
     filterAccuracy?: number;
+    /**
+     * whether to render a representation of the minimum value as some visual glyph
+     * i.e. a bar with 1 px instead of 0 px
+     * @default false
+     */
+    showMinimumRepresentation?: boolean;
 }
 /**
  * checks whether the given column or description is a number column, i.e. the value is a number

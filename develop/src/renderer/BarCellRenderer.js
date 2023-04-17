@@ -20,6 +20,7 @@ var BarCellRenderer = /** @class */ (function () {
     };
     BarCellRenderer.prototype.create = function (col, context, imposer) {
         var width = context.colWidth(col);
+        var showMin = col.desc.showMinimumRepresentation;
         return {
             template: "<div title=\"\">\n          <div class=\"".concat(cssClass('bar-label'), "\" style='background-color: ").concat(DEFAULT_COLOR, "'>\n            <span ").concat(this.renderValue ? '' : "class=\"".concat(cssClass('hover-only'), "\""), "></span>\n          </div>\n        </div>"),
             update: function (n, d) {
@@ -29,7 +30,7 @@ var BarCellRenderer = /** @class */ (function () {
                 var title = col.getLabel(d);
                 n.title = title;
                 var bar = n.firstElementChild;
-                bar.style.width = missing ? '100%' : "".concat(w, "%");
+                bar.style.width = missing ? '100%' : showMin ? "max(1px, ".concat(w, "%)") : "".concat(w, "%");
                 var color = adaptColor(colorOf(col, d, imposer, value), BIG_MARK_LIGHTNESS_FACTOR);
                 bar.style.backgroundColor = missing ? null : color;
                 setText(bar.firstElementChild, title);
@@ -44,7 +45,7 @@ var BarCellRenderer = /** @class */ (function () {
                 var value = col.getNumber(d);
                 ctx.fillStyle = adaptColor(colorOf(col, d, imposer, value) || DEFAULT_COLOR, BIG_MARK_LIGHTNESS_FACTOR);
                 var w = width * value;
-                ctx.fillRect(0, 0, Number.isNaN(w) ? 0 : w, CANVAS_HEIGHT);
+                ctx.fillRect(0, 0, Number.isNaN(w) ? 0 : Math.max(w, showMin ? 1 : 0), CANVAS_HEIGHT);
             },
         };
     };
