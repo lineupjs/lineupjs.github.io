@@ -14,7 +14,6 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 import { SetColumn, Ranking, } from '../../model';
-import { findFilterMissing, updateFilterMissingNumberMarkup, filterMissingNumberMarkup } from '../missing';
 import ADialog from './ADialog';
 import { forEach } from './utils';
 import { cssClass, engineCssClass } from '../../styles';
@@ -35,7 +34,7 @@ var CategoricalFilterDialog = /** @class */ (function (_super) {
         var _this = this;
         node.insertAdjacentHTML('beforeend', "<div class=\"".concat(cssClass('dialog-table'), "\">\n        <label class=\"").concat(cssClass('checkbox'), " ").concat(cssClass('dialog-filter-table-entry'), "\">\n          <input type=\"checkbox\" checked>\n          <span>\n            <span class=\"").concat(cssClass('dialog-filter-table-color'), "\"></span>\n            <div>Un/Select All</div>\n          </span>\n        </label>\n        ").concat(this.column.categories
             .map(function (c) { return "<label class=\"".concat(cssClass('checkbox'), " ").concat(cssClass('dialog-filter-table-entry'), "\" data-cat=\"\">\n          <input data-cat=\"\" type=\"checkbox\"").concat(isCategoryIncluded(_this.before, c) ? 'checked' : '', ">\n          <span>\n            <span class=\"").concat(cssClass('dialog-filter-table-color'), "\" style=\"background-color: ").concat(_this.ctx.sanitize(c.color), "\"></span>\n            <div class=\"").concat(cssClass('dialog-filter-table-entry-label'), "\"> </div>\n            <div class=\"").concat(cssClass('dialog-filter-table-entry-stats'), "\"></div>\n          </span>\n        </label>"); })
-            .join(''), "\n    </div>"));
+            .join(''), "\n        <label class=\"").concat(cssClass('checkbox'), " ").concat(cssClass('dialog-filter-table-entry'), "\" data-missing=\"\">\n          <input type=\"checkbox\" ").concat(!this.before.filterMissing ? 'checked="checked"' : '', " data-missing=\"\">\n          <span>\n            <span class=\"").concat(cssClass('dialog-filter-table-color'), " ").concat(cssClass('missing'), "\"></span>\n            <div class=\"").concat(cssClass('dialog-filter-table-entry-label'), "\">missing value rows</div>\n            <div class=\"").concat(cssClass('dialog-filter-table-entry-stats'), "\">0</div>\n          </span>\n        </label>\n    </div>"));
         var categories = this.column.categories;
         Array.from(node.querySelectorAll("label.".concat(cssClass('checkbox'), "[data-cat]"))).forEach(function (n, i) {
             var cat = categories[i];
@@ -45,7 +44,7 @@ var CategoricalFilterDialog = /** @class */ (function (_super) {
         // selectAll
         var selectAll = this.findInput('input:not([data-cat])');
         selectAll.onchange = function () {
-            forEach(node, 'input[data-cat]', function (n) { return (n.checked = selectAll.checked); });
+            forEach(node, 'input[data-cat],input[data-missing]', function (n) { return (n.checked = selectAll.checked); });
         };
         if (this.column instanceof SetColumn) {
             var some = this.before.mode !== 'every';
@@ -53,7 +52,6 @@ var CategoricalFilterDialog = /** @class */ (function (_super) {
             node.insertAdjacentHTML('beforeend', "<label class=\"".concat(cssClass('checkbox'), "\">\n        <input type=\"radio\" ").concat(!some ? 'checked="checked"' : '', " name=\"mode\" value=\"every\">\n        <span>all are selected</span>\n      </label>"));
             node.insertAdjacentHTML('beforeend', "<label class=\"".concat(cssClass('checkbox'), "\" style=\"padding-bottom: 0.6em\">\n        <input type=\"radio\" ").concat(some ? 'checked="checked"' : '', " name=\"mode\" value=\"some\">\n        <span>some are selected</span>\n      </label>"));
         }
-        node.insertAdjacentHTML('beforeend', filterMissingNumberMarkup(this.before.filterMissing, 0));
         this.enableLivePreviews('input[type=checkbox],input[type=radio]');
         var ranking = this.column.findMyRanker();
         if (ranking) {
@@ -71,12 +69,12 @@ var CategoricalFilterDialog = /** @class */ (function (_super) {
                 return;
             }
             var summary = r.summary, data = r.data;
-            var missing = data ? data.missing : summary ? summary.missing : 0;
-            updateFilterMissingNumberMarkup(findFilterMissing(_this.node).parentElement, missing);
             if (!summary || !data) {
                 return;
             }
-            _this.forEach(".".concat(cssClass('dialog-filter-table-entry-stats')), function (n, i) {
+            var missingNode = _this.find("label[data-missing] .".concat(cssClass('dialog-filter-table-entry-stats')));
+            missingNode.textContent = "".concat(summary.missing.toLocaleString(), "/").concat(data.count.toLocaleString());
+            _this.forEach("label[data-cat] .".concat(cssClass('dialog-filter-table-entry-stats')), function (n, i) {
                 var bin = summary.hist[i];
                 var raw = data.hist[i];
                 n.textContent = "".concat(bin.count.toLocaleString(), "/").concat(raw.count.toLocaleString());
@@ -101,7 +99,7 @@ var CategoricalFilterDialog = /** @class */ (function (_super) {
     };
     CategoricalFilterDialog.prototype.reset = function () {
         this.forEach('input[data-cat]', function (n) { return (n.checked = true); });
-        findFilterMissing(this.node).checked = false;
+        this.findInput('input[data-missing]').checked = true;
         var mode = this.findInput('input[value=every]');
         if (mode) {
             mode.checked = true;
@@ -116,7 +114,8 @@ var CategoricalFilterDialog = /** @class */ (function (_super) {
             // all checked = no filter
             f = null;
         }
-        var filterMissing = findFilterMissing(this.node).checked;
+        // TODO
+        var filterMissing = !this.findInput('input[data-missing]').checked;
         var mode = this.findInput('input[value=some]');
         this.updateFilter(f, filterMissing, mode != null && mode.checked);
         return true;

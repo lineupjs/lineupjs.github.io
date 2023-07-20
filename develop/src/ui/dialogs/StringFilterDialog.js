@@ -87,7 +87,13 @@ var StringFilterDialog = /** @class */ (function (_super) {
         if (!this.showLivePreviews()) {
             return;
         }
-        input.addEventListener('input', debounce(function () { return _this.submit(); }, 100), {
+        input.addEventListener('input', debounce(function () {
+            var input = _this.findInput('input[type="text"]').value;
+            if (input.length > 0 && !_this.before) {
+                findFilterMissing(_this.node).checked = true;
+            }
+            _this.submit();
+        }, 100), {
             passive: true,
         });
     };
